@@ -5,6 +5,9 @@ const {PORT} = require('./config/serverConfig');
 const apiRoutes = require('./routes/index');
 const bodyParser = require('body-parser');
 
+const db = require('./models/index');
+
+
 // const UserService = require('./services/user-service')
 
 const app = express();
@@ -18,6 +21,9 @@ const prepareAndStartServer = () => {
 
     app.listen(PORT, async () =>{
         console.log(`Server started on prt: ${PORT}`);
+        if(process.env.DB_SYNC){
+            db.sequelize.sync({alter: true})
+        }
 
         // const service = new UserService();
         // const newToken = service.createToken({email: 'sarthak735@gmail.com', id: 1});
